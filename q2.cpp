@@ -1,66 +1,84 @@
 #include<bits/stdc++.h>
 using namespace std;
-class Node
+class mystack
+{
+    public:
+    list<int> l;
+    void push(int val)
     {
-        public:  
-           int val;
-           Node* next;
-           Node* prev;
-           Node(int val)
-           {
-              this->val= val;
-              this->next = NULL;
-              this->prev = NULL;
-           }
-    };
- void insert_tail(Node* &head , Node* &tail, int val)
- {
-    Node* newnode = new Node(val);
-    if(head == NULL){
-        head = newnode;
-        tail = newnode;
-        return;
+        l.push_back(val);
     }
-    tail->next = newnode;
-    newnode->prev = tail;
-    tail = newnode;
-    
- }
-
- int check_plindrome(Node* head, Node* tail)
- {  
-    int c = 1;
-    for(Node* i = head, *j = tail;i!=j && i->prev != j ; i = i->next, j = j->prev){
-      if(i->val != j->val){
-         c = 0;
-         break;
-      }
+    void pop()
+    {
+        l.pop_back();
     }
-    return c;
- }
+    int top()
+    {
+        return l.back();
+    }
+    bool empty()
+    {
+        return l.empty();
+    }
+};
 
+class myqueue
+{
+    public:
+    list<int> l;
+    void push(int val)
+    {
+        l.push_back(val);
+    }
+    void pop()
+    {
+        l.pop_front();
+    }
+    int front(){
+        return l.front();
+        }
+    bool empty(){
+        return l.empty();
+    }
+};
 
 int main(){
-
-   Node* head = NULL;
-   Node* tail = NULL;
-
-   int val;
-   while(true)
-   {
-    cin >> val;
-    if(val == -1){
-        break;
+    mystack st;
+    myqueue qu;
+    int n, m;
+    cin >> n >> m;
+    for(int i = 0; i < n; i++){
+        int x;
+        cin >> x;
+        st.push(x);
     }
-    insert_tail(head, tail, val);
-   }
-   int check = check_plindrome(head, tail);
-   if(check == 1){
-      cout<< "YES";
-   }
-   else{
-      cout<< "NO";
-   }
-   
+    for(int i = 0; i < m; i++){
+        int x;
+        cin >> x;
+        qu.push(x);
+    }
+    
+    int check = 1;
+    if(m != n) 
+    {
+        check = 0;
+    }
+    else{
+        while(!st.empty() && !qu.empty())
+        {
+            if(st.top() == qu.front())
+            {
+                st.pop();
+                qu.pop();
+            }
+            else{
+                check = 0;
+                break;
+            }
+        }
+    }
+    if(check == 1) cout<< "YES" <<endl;
+    else cout << "NO" <<endl;
   return 0;
 }
+
